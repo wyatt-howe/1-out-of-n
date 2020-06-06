@@ -1,6 +1,6 @@
 {
   "name": "1-out-of-n",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "1-out-of-n oblivious transfer",
   "main": "index.js",
   "files": [],
@@ -24,5 +24,5 @@
   "bugs": {
     "url": "https://github.com/wyatt-howe/1-out-of-n/issues"
   },
-  "homepage": "https://github.com/wyatt-howe/1-out-of-n/tree/README#readme"
+  "homepage": "https://github.com/wyatt-howe/1-out-of-n/#README"
 }
