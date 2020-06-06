@@ -2,7 +2,7 @@
   "name": "1-out-of-n",
   "version": "0.1.0",
   "description": "1-out-of-n oblivious transfer",
-  "main": "index.js",
+  "main": "ot.js",
   "files": [],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
