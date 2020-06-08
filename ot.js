@@ -20,7 +20,7 @@ const send_from_N = function (X, N) {
   for (let j = 1; j <= l; j++) {
     K[j] = Array(2);
     for (let b = 0; b <= 1; b++) {
-      K[j][b] = KDF();  // {K_{j}}^{b}
+      K[j][b] = crypto.KDF();  // {K_{j}}^{b}
     }
   }
 
@@ -28,12 +28,12 @@ const send_from_N = function (X, N) {
   for (let I = 1; I <= N; I++) {
     let i = to_bits(I);  // l bits of I
 
-    let Y[I] = X[I];  // Array(m);
+    Y[I] = X[I];  // Array(m);
     for (let j = 1; j <= l; j++) {
       let i_j = i[j];
       let K_j = K[j];
       let Kj_ij = K_j[i_j];  // {K_{j}}^{i_j}
-      Y[I] = xor(Y[I], PRF(Kj_ij, I));
+      Y[I] = utils.xor(Y[I], crypto.PRF(Kj_ij, I));
     }
   }
 
@@ -43,7 +43,7 @@ const send_from_N = function (X, N) {
   }
 
   for (let I = 1; I <= N; I++) {
-    give(I, Y[I]);  // reveal Y_I
+    IO.give(I, Y[I]);  // reveal Y_I
   }
 };
 
@@ -59,7 +59,7 @@ const receive_from_N = function (I, N) {
   }
 
   for (let pI = 1; pI <= N; pI++) {
-    let pY_pI = get(pI);
+    let pY_pI = IO.get(pI);
     if (pI === I) {
       Y_I = pY_pI;
     }
@@ -68,7 +68,7 @@ const receive_from_N = function (I, N) {
   let X_I = Y_I;  // Array(m);
   for (let j = 1; j <= l; j++) {
     let Kj_ij = K[j];  // {K_{j}}^{i_j}
-    X_I = xor(X_I, PRF(Kj_ij, I));
+    X_I = utils.xor(X_I, crypto.PRF(Kj_ij, I));
   }
 
   return X_I;
