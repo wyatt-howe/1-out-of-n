@@ -1,11 +1,11 @@
-const ascii = require('utils').ascii;
+const ascii = require('./util.js').ascii;
 
 /*
  *  This is the setup for a secure 1-out-of-3 oblivious transfer using
  *  the methods in IO to send public messages between the two parties.
  */
-var IO = require('example-in-out');
-const OT = require('ot')(IO);
+var IO = require('./example-in-out.js');
+const OT = require('./ot.js')(IO);
 const N = 3;
 
 
@@ -14,16 +14,16 @@ const N = 3;
  */
 const secrets = [
   'A first secret!!',
-  'A second secret!',
+  // 'A second secret!',
   'A third secret!!'
 ].map(ascii.to_array);
 
-OT.send(secrets, N);
+OT.single_send(...secrets/*, N*/);
 
 
 /*
  *  The receiver calls:
  */
-OT.receive(1, N).then(function (array) {
+OT.single_receive(1/*, N*/).then(function (array) {
   console.log('Secret #1 is:', ascii.to_ascii(array));
 });
