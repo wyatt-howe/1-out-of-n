@@ -15,7 +15,7 @@ const give = function (tag, msg) {
 // IO receive
 const get = function (tag) {
   /* get a message */
-  return msg;
+  return /*msg*/;
 };
 
 module.exports = {

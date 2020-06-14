@@ -4,9 +4,11 @@ module.exports = function (sodium, util) {
   const PRF = function (k, x) {
     if (typeof(x) === 'number') {
       x = new Uint8Array(util.to_bits(x, 32));
+    // eslint-disable-next-line no-prototype-builtins
     } else if (!Uint8Array.prototype.isPrototypeOf(x) && Array.isArray(x)) {
       x = new Uint8Array(x);
     }
+    // eslint-disable-next-line no-prototype-builtins
     if (!Uint8Array.prototype.isPrototypeOf(k) && Array.isArray(k)) {
       k = new Uint8Array(k);
     }

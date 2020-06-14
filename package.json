@@ -26,6 +26,8 @@
   },
   "homepage": "https://github.com/wyatt-howe/1-out-of-n/#README",
   "dependencies": {
+    "eslint": "^7.2.0",
+    "eslint-plugin-requirejs": "^4.0.0",
     "libsodium": "^0.7.6",
     "libsodium-wrappers": "^0.7.6"
   }

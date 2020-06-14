@@ -68,7 +68,11 @@ const send_from_N = function (X, N, op_id) {
   op_id = op_id + ':1inNot';
   let give = io.give.bind(null, op_id);
 
-  // // console.log(X, N);
+  if (N == null) {
+    N = X.length;
+  }
+
+  // console.log(X, N);
   const l = Math.ceil(Math.log2(N));  // N = 2^l
 
   let K = Array(l);
@@ -127,7 +131,7 @@ const receive_from_N = function (I, N, op_id) {
 
     Promise.all(K).then(function (K) {
       // console.log('K', K);
-      // let Y_I = Array();
+      let Y_I = Array(32);
       for (let pI = 0; pI < N; pI++) {
         let pY_pI = get(pI);
         if (pI === I) {

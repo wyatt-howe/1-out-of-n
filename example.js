@@ -6,7 +6,7 @@ const ascii = require('./util.js').ascii;
  */
 var IO = require('./example-in-out.js');
 const OT = require('./ot.js')(IO);
-const N = 10;
+const N = 11;
 
 OT.then(function (OT) {
 
@@ -14,6 +14,7 @@ OT.then(function (OT) {
    *  The sender calls:
    */
   const secrets = [
+    'A zeroth secret!',
     'A first secret!!',
     'A second secret!',
     'A third secret!!',

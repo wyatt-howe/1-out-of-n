@@ -1,15 +1,15 @@
 /*
  *  ASCII helpers for showing text based oblivious transfer
  */
-const to_array = function(ascii) {
+const to_array = function (ascii) {
   let array = Array(ascii.length);
   for (let i = 0; i < ascii.length; i++) {
     array[i] = ascii[i].charCodeAt();
   }
   return array;
 }
-const to_ascii = function(array) {
- return String.fromCharCode.apply(null, array);
+const to_ascii = function (array) {
+  return String.fromCharCode.apply(null, array);
 }
 
 // Bit decomposition
@@ -56,7 +56,7 @@ module.exports = {
   xor_char: (a, b) => (((parseInt(a, 16) ^ parseInt(b, 16)) + 16) % 16).toString(16),
   xor_array: function (a, b, l) {
     const util = require('./util.js');
-    var c = "";
+    var c = '';
     for (var i = 0; i < a.length; i++) {
       c += util.xor_char(a[i], b[i]);
     }
