@@ -11,20 +11,20 @@ const send_from_2 = function (X1, X2, op_id) {
   let give = io.give.bind(null, op_id);
 
   // console.log('X1, X2', X1, X2);
-  const a = G.random();
-  const A = G.exp_base(a);
+  const a = sodium.crypto_core_ristretto255_scalar_random();
+  const A = sodium.crypto_scalarmult_ristretto255_base(a);
 
   give('A', A);
   get('B').then(function (B) {
-    let k0 = G.exp(B, a);
-    let k1 = G.exp(G.mult_inv(B, A), a);
+    let k0 = sodium.crypto_scalarmult_ristretto255(a, B);
+    let k1 = sodium.crypto_scalarmult_ristretto255(a, sodium.crypto_core_ristretto255_sub(B, A));
 
-    k0 = G.point_to_hash(k0);
-    k1 = G.point_to_hash(k1);
+    k0 = sodium.crypto_generichash(32, k0);
+    k1 = sodium.crypto_generichash(32, k1);
 
     // console.log('k0, k1', k0, k1);
-    const e0 = util.encrypt_generic(X1, k0);
-    const e1 = util.encrypt_generic(X2, k1);
+    const e0 = crypto.encrypt_generic(X1, k0);
+    const e1 = crypto.encrypt_generic(X2, k1);
 
     give('e', [e0, e1]);
   });
@@ -37,24 +37,24 @@ const receive_from_2 = function (c, op_id) {
   let give = io.give.bind(null, op_id);
 
   // console.log('c', c);
-  const b = G.random();
-  let B = G.exp_base(b);
+  const b = sodium.crypto_core_ristretto255_scalar_random();
+  let B = sodium.crypto_scalarmult_ristretto255_base(b);
 
   return new Promise(function (resolve) {
     get('A').then(function (A) {
       if (c === 1) {
-        B = G.mult(A, B);
+        B = sodium.crypto_core_ristretto255_add(A, B);
       }
 
       give('B', B);
       get('e').then(function (e) {
         e = e[c];
 
-        let k = G.exp(A, b);
-        k = G.point_to_hash(k);
+        let k = sodium.crypto_scalarmult_ristretto255(b, A);
+        k = sodium.crypto_generichash(32, k);
         // console.log('k', k);
 
-        let Xc = util.decrypt_generic(e, k);
+        let Xc = crypto.decrypt_generic(e, k);
 
         // console.log('Xc', Xc);
         resolve(Xc);
@@ -88,7 +88,7 @@ const send_from_N = function (X, N, op_id) {
     let i = util.to_bits(I, l);  // l bits of I
 
     // console.log('X[I]', X[I]);
-    Y[I] = new Uint8Array(X[I]);  // Array(m);
+    Y[I] = X[I];  // Array(m);
     for (let j = 0; j < l; j++) {
       let i_j = i[j];
       let K_j = K[j];
@@ -168,14 +168,13 @@ module.exports = function (__io, __sodium) {
   io = __io;
 
   if (__sodium == null) {
-    sodium = require('libsodium-wrappers');
+    sodium = require('libsodium-wrappers-sumo');
   } else /*if (sodium.ready != null)*/ {
     sodium = __sodium;
   }
 
   util = require('./util.js');
   crypto = require('./crypto.js')(sodium, util);
-  G = require('./group.js');
 
   return new Promise(function (resolve) {
     sodium.ready.then(function () {

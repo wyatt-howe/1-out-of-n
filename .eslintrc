@@ -29,11 +29,11 @@
     "browser": true,
     "jquery": true,
     "node": true,
-    "amd":true,
+    "amd": true,
     "es6": true
   },
 
-  "parserOptions":{
+  "parserOptions": {
     "ecmaVersion": 6,
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true

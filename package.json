@@ -29,6 +29,7 @@
     "eslint": "^7.2.0",
     "eslint-plugin-requirejs": "^4.0.0",
     "libsodium": "^0.7.6",
-    "libsodium-wrappers": "^0.7.6"
+    "libsodium-wrappers": "^0.7.6",
+    "libsodium-wrappers-sumo": "^0.7.6"
   }
 }
