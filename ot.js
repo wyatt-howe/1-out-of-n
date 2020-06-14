@@ -2,7 +2,6 @@ var sodium = {};
 var crypto = {};
 var util = {};
 var io = {};
-var G = {};
 
 // 1-out-of-2 OT sending
 const send_from_2 = function (X1, X2, op_id) {
@@ -10,7 +9,6 @@ const send_from_2 = function (X1, X2, op_id) {
   let get = io.get.bind(null, op_id);
   let give = io.give.bind(null, op_id);
 
-  // console.log('X1, X2', X1, X2);
   const a = sodium.crypto_core_ristretto255_scalar_random();
   const A = sodium.crypto_scalarmult_ristretto255_base(a);
 
@@ -22,7 +20,6 @@ const send_from_2 = function (X1, X2, op_id) {
     k0 = sodium.crypto_generichash(32, k0);
     k1 = sodium.crypto_generichash(32, k1);
 
-    // console.log('k0, k1', k0, k1);
     const e0 = crypto.encrypt_generic(X1, k0);
     const e1 = crypto.encrypt_generic(X2, k1);
 
@@ -36,7 +33,6 @@ const receive_from_2 = function (c, op_id) {
   let get = io.get.bind(null, op_id);
   let give = io.give.bind(null, op_id);
 
-  // console.log('c', c);
   const b = sodium.crypto_core_ristretto255_scalar_random();
   let B = sodium.crypto_scalarmult_ristretto255_base(b);
 
@@ -52,11 +48,9 @@ const receive_from_2 = function (c, op_id) {
 
         let k = sodium.crypto_scalarmult_ristretto255(b, A);
         k = sodium.crypto_generichash(32, k);
-        // console.log('k', k);
 
         let Xc = crypto.decrypt_generic(e, k);
 
-        // console.log('Xc', Xc);
         resolve(Xc);
       });
     });
@@ -72,7 +66,6 @@ const send_from_N = function (X, N, op_id) {
     N = X.length;
   }
 
-  // console.log(X, N);
   const l = Math.ceil(Math.log2(N));  // N = 2^l
 
   let K = Array(l);
@@ -87,27 +80,21 @@ const send_from_N = function (X, N, op_id) {
   for (let I = 0; I < N; I++) {
     let i = util.to_bits(I, l);  // l bits of I
 
-    // console.log('X[I]', X[I]);
     Y[I] = X[I];  // Array(m);
     for (let j = 0; j < l; j++) {
       let i_j = i[j];
       let K_j = K[j];
       let Kj_ij = K_j[i_j];  // {K_{j}}^{i_j}
-      // console.log('KKK', i, j, K_j, Kj_ij);
       Y[I] = util.xor(Y[I], crypto.PRF(Kj_ij, I));
-      // console.log('PRF OUTPUTs P1', crypto.PRF(Kj_ij, I));
     }
   }
-  // console.log('Y', Y);
 
   for (let j = 0; j < l; j++) {
     let K_j = K[j];
     send_from_2(K_j[0], K_j[1], op_id+j);
-    // console.log('kkkk', K_j[0], K_j[1]);
   }
 
   for (let I = 0; I < N; I++) {
-    // console.log('Y['+I+']', Y[I]);
     give(I, Y[I]);  // reveal Y_I
   }
 };
@@ -117,7 +104,6 @@ const receive_from_N = function (I, N, op_id) {
   op_id = op_id + ':1inNot';
   let get = io.get.bind(null, op_id);
 
-  // // console.log(I, N);
   return new Promise(function (resolve) {
     const l = Math.ceil(Math.log2(N));  // N = 2^l
     const i = util.to_bits(I, l);  // l bits of I
@@ -126,11 +112,9 @@ const receive_from_N = function (I, N, op_id) {
     for (let j = 0; j < l; j++) {
       let i_j = i[j];  // bit j=i_j of I
       K[j] = receive_from_2(i_j, op_id+j);  // pick {K_{j}}^{b} which is also {K_{j}}^{i_j}
-      // console.log('kkk', i, j, i_j, K[j]);
     }
 
     Promise.all(K).then(function (K) {
-      // console.log('K', K);
       let Y_I = Array(32);
       for (let pI = 0; pI < N; pI++) {
         let pY_pI = get(pI);
@@ -140,17 +124,13 @@ const receive_from_N = function (I, N, op_id) {
       }
 
       Y_I.then(function (Y_I) {
-        // console.log('Y_'+I, Y_I);
         let X_I = Y_I;  // Array(m);
         for (let j = 0; j < l; j++) {
           let Kj_ij = K[j];  // {K_{j}}^{i_j}
-          // console.log('Kj_ij', Kj_ij, j);
           X_I = util.xor(X_I, crypto.PRF(Kj_ij, I));
-          // console.log('PRF OUTPUTs P2', crypto.PRF(Kj_ij, I));
         }
 
         // Done
-        // console.log('X_I', X_I);
         resolve(X_I);
       });
     });
@@ -169,7 +149,7 @@ module.exports = function (__io, __sodium) {
 
   if (__sodium == null) {
     sodium = require('libsodium-wrappers-sumo');
-  } else /*if (sodium.ready != null)*/ {
+  } else {
     sodium = __sodium;
   }
 
