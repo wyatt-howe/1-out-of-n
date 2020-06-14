@@ -1,4 +1,4 @@
-const ascii = require('./util.js').ascii;
+const ascii = require('./ascii.js');
 
 /*
  *  This is the setup for a secure 1-out-of-3 oblivious transfer using

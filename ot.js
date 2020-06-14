@@ -6,16 +6,16 @@ var io = {};
 // 1-out-of-2 OT sending
 const send_from_2 = function (X1, X2, op_id) {
   op_id = op_id + ':1in2ot';
-  let get = io.get.bind(null, op_id);
-  let give = io.give.bind(null, op_id);
+  var get = io.get.bind(null, op_id);
+  var give = io.give.bind(null, op_id);
 
   const a = sodium.crypto_core_ristretto255_scalar_random();
   const A = sodium.crypto_scalarmult_ristretto255_base(a);
 
   give('A', A);
   get('B').then(function (B) {
-    let k0 = sodium.crypto_scalarmult_ristretto255(a, B);
-    let k1 = sodium.crypto_scalarmult_ristretto255(a, sodium.crypto_core_ristretto255_sub(B, A));
+    var k0 = sodium.crypto_scalarmult_ristretto255(a, B);
+    var k1 = sodium.crypto_scalarmult_ristretto255(a, sodium.crypto_core_ristretto255_sub(B, A));
 
     k0 = sodium.crypto_generichash(32, k0);
     k1 = sodium.crypto_generichash(32, k1);
@@ -30,11 +30,11 @@ const send_from_2 = function (X1, X2, op_id) {
 // 1-out-of-2 OT receiving
 const receive_from_2 = function (c, op_id) {
   op_id = op_id + ':1in2ot';
-  let get = io.get.bind(null, op_id);
-  let give = io.give.bind(null, op_id);
+  var get = io.get.bind(null, op_id);
+  var give = io.give.bind(null, op_id);
 
   const b = sodium.crypto_core_ristretto255_scalar_random();
-  let B = sodium.crypto_scalarmult_ristretto255_base(b);
+  var B = sodium.crypto_scalarmult_ristretto255_base(b);
 
   return new Promise(function (resolve) {
     get('A').then(function (A) {
@@ -46,10 +46,10 @@ const receive_from_2 = function (c, op_id) {
       get('e').then(function (e) {
         e = e[c];
 
-        let k = sodium.crypto_scalarmult_ristretto255(b, A);
+        var k = sodium.crypto_scalarmult_ristretto255(b, A);
         k = sodium.crypto_generichash(32, k);
 
-        let Xc = crypto.decrypt_generic(e, k);
+        var Xc = crypto.decrypt_generic(e, k);
 
         resolve(Xc);
       });
@@ -59,8 +59,9 @@ const receive_from_2 = function (c, op_id) {
 
 // 1-out-of-2 OT sending
 const send_from_N = function (X, N, op_id) {
+  var I, j;
   op_id = op_id + ':1inNot';
-  let give = io.give.bind(null, op_id);
+  var give = io.give.bind(null, op_id);
 
   if (N == null) {
     N = X.length;
@@ -68,65 +69,66 @@ const send_from_N = function (X, N, op_id) {
 
   const l = Math.ceil(Math.log2(N));  // N = 2^l
 
-  let K = Array(l);
-  for (let j = 0; j < l; j++) {
+  var K = Array(l);
+  for (j = 0; j < l; j++) {
     K[j] = Array(2);
-    for (let b = 0; b <= 1; b++) {
+    for (var b = 0; b <= 1; b++) {
       K[j][b] = crypto.KDF();  // {K_{j}}^{b}
     }
   }
 
-  let Y = Array(N);
-  for (let I = 0; I < N; I++) {
-    let i = util.to_bits(I, l);  // l bits of I
+  var Y = Array(N);
+  for (I = 0; I < N; I++) {
+    var i = util.to_bits(I, l);  // l bits of I
 
     Y[I] = X[I];  // Array(m);
-    for (let j = 0; j < l; j++) {
-      let i_j = i[j];
-      let K_j = K[j];
-      let Kj_ij = K_j[i_j];  // {K_{j}}^{i_j}
+    for (j = 0; j < l; j++) {
+      const i_j = i[j];
+      const K_j = K[j];
+      const Kj_ij = K_j[i_j];  // {K_{j}}^{i_j}
       Y[I] = util.xor(Y[I], crypto.PRF(Kj_ij, I));
     }
   }
 
-  for (let j = 0; j < l; j++) {
-    let K_j = K[j];
+  for (j = 0; j < l; j++) {
+    const K_j = K[j];
     send_from_2(K_j[0], K_j[1], op_id+j);
   }
 
-  for (let I = 0; I < N; I++) {
+  for (I = 0; I < N; I++) {
     give(I, Y[I]);  // reveal Y_I
   }
 };
 
 // 1-out-of-2 OT receiving
 const receive_from_N = function (I, N, op_id) {
+  var j;
   op_id = op_id + ':1inNot';
-  let get = io.get.bind(null, op_id);
+  var get = io.get.bind(null, op_id);
 
   return new Promise(function (resolve) {
     const l = Math.ceil(Math.log2(N));  // N = 2^l
     const i = util.to_bits(I, l);  // l bits of I
 
-    let K = Array(l);
-    for (let j = 0; j < l; j++) {
-      let i_j = i[j];  // bit j=i_j of I
+    var K = Array(l);
+    for (j = 0; j < l; j++) {
+      const i_j = i[j];  // bit j=i_j of I
       K[j] = receive_from_2(i_j, op_id+j);  // pick {K_{j}}^{b} which is also {K_{j}}^{i_j}
     }
 
     Promise.all(K).then(function (K) {
-      let Y_I = Array(32);
-      for (let pI = 0; pI < N; pI++) {
-        let pY_pI = get(pI);
+      var Y_I = Array(32);
+      for (var pI = 0; pI < N; pI++) {
+        const pY_pI = get(pI);
         if (pI === I) {
           Y_I = pY_pI;
         }
       }
 
       Y_I.then(function (Y_I) {
-        let X_I = Y_I;  // Array(m);
-        for (let j = 0; j < l; j++) {
-          let Kj_ij = K[j];  // {K_{j}}^{i_j}
+        var X_I = Y_I;  // Array(m);
+        for (j = 0; j < l; j++) {
+          const Kj_ij = K[j];  // {K_{j}}^{i_j}
           X_I = util.xor(X_I, crypto.PRF(Kj_ij, I));
         }
 
