@@ -13,15 +13,18 @@ const to_ascii = function(array) {
 }
 
 // Bit decomposition
-const to_bits = function (I) {
-  return i;
+const to_bits = function (I, l) {
+  let i = I.toString(2).split('').map(Number);
+  i = i.reverse();  // little endian for correctness, but actually doesn't matter for the use in OT
+  let il = i.concat(Array(l - i.length).fill(0));
+  return il;
 };
 
 // Bitwise XOR
 const xorBytes = function (x, y) {
-  if (x.length !== y.length) {
-    throw new Error('Cannot XOR mismatched size byte arrays, ' + x.length + ' and ' + y.length + '.')
-  }
+  // if (x.length !== y.length) {
+  //   throw new Error('Cannot XOR mismatched size byte arrays, ' + x.length + ' and ' + y.length + '.')
+  // }
 
   const bytes = Array(x.length);
 
@@ -61,18 +64,18 @@ module.exports = {
   },
   encrypt_generic: function (plaintext, key) {
     const util = require('./util.js');
-    console.log('plaintext', plaintext);
+    // // console.log('plaintext', plaintext);
     let pad = to_array(util.H(key.toString(16)).toString(16).padStart(16, '0'));
-    console.log('pad', pad);
+    // // console.log('pad', pad);
     let ciphertext = util.xor(plaintext, pad);
-    console.log('ciphertext', ciphertext);
+    // // console.log('ciphertext', ciphertext);
     return ciphertext;
   },
   decrypt_generic: function (ciphertext, key) {
     const util = require('./util.js');
     let pad = to_array(util.H(key.toString(16)).toString(16).padStart(16, '0'));
     let plaintext = util.xor(ciphertext, pad);
-    console.log('plaintext', plaintext);
+    // // console.log('plaintext', plaintext);
     return plaintext;
   }
 };

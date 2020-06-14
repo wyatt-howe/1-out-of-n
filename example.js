@@ -6,24 +6,34 @@ const ascii = require('./util.js').ascii;
  */
 var IO = require('./example-in-out.js');
 const OT = require('./ot.js')(IO);
-const N = 3;
+const N = 10;
+
+OT.then(function (OT) {
+
+  /*
+   *  The sender calls:
+   */
+  const secrets = [
+    'A first secret!!',
+    'A second secret!',
+    'A third secret!!',
+    'A fourth secret!',
+    'A fifth secret!!',
+    'A sixth secret!!',
+    'A seventh secret',
+    'A eighth secret!',
+    'A nineth secret!',
+    'A tenth secret!!'
+  ].map(ascii.to_array);
+
+  OT.send(secrets, N);
 
 
-/*
- *  The sender calls:
- */
-const secrets = [
-  'A first secret!!',
-  // 'A second secret!',
-  'A third secret!!'
-].map(ascii.to_array);
+  /*
+   *  The receiver calls:
+   */
+  OT.receive(6, N).then(function (array) {
+    console.log('The chosen secret is:', ascii.to_ascii(array));
+  });
 
-OT.single_send(...secrets/*, N*/);
-
-
-/*
- *  The receiver calls:
- */
-OT.single_receive(1/*, N*/).then(function (array) {
-  console.log('Secret #1 is:', ascii.to_ascii(array));
 });

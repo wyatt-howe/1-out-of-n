@@ -54,8 +54,14 @@ const G = {
     return G.exp(G.g, a);
   },
   point_to_hash: function (e) {
-    const H = require('./util.js').H;
-    return H(String(e + G.p));
+    return (function (m) {  // Generic hash for array of chars
+      var hash = 0;
+      const compress = (h, b) => ((h<<5)-h) + b;
+      for (var i = 0; i < m.length; i++) {
+        hash = compress(hash, m.charCodeAt(i));
+      }
+      return Math.abs(hash);
+    })(String(e + G.p));
   }
 };
 
