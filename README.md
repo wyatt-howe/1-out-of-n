@@ -21,6 +21,14 @@ We are essentially building 1-out-of-N OT from random 1-out-of-N and 1-out-of-2 
        ├─ io-template.js
        └─ ascii.js -->
 
+## Installation
+
+You may also install this module from [npm](https://www.npmjs.com/).
+
+```shell
+npm install 1-out-of-n
+```
+
 ## Calling the API
 
 The process generally works as follows:
@@ -42,4 +50,4 @@ OT.receive(2, N).then(console.log.bind(null, 'Secret #2 is:'));
 66
 ```
 
-Note that the latest version expects to get an array of Uint8Array as inputs.  Please read [example.js](https://github.com/wyatt-howe/1-out-of-n/blob/master/lib/example.js) for a more detailed example.
+Note that the latest version expects to get an array of Uint8Array as inputs.  Please read [example.js](https://github.com/wyatt-howe/1-out-of-n/blob/master/demo/example.js) for a more detailed example or run it with `node demo/example.js`.
