@@ -4,8 +4,8 @@ const ascii = require('./ascii.js');
  *  This is the setup for a secure 1-out-of-3 oblivious transfer using
  *  the methods in IO to send public messages between the two parties.
  */
-var IO = require('./example-in-out.js');
-const OT = require('./ot.js')(IO);
+var IO = require('./io-example.js');
+const OT = require('../index.js')(IO);
 const N = 11;
 
 OT.then(function (OT) {
