@@ -5,7 +5,7 @@ const ascii = require('./ascii.js');
  *  the methods in IO to send public messages between the two parties.
  */
 var IO = require('./io-example.js');
-const OT = require('../index.js')(IO);
+const OT = require('1-out-of-n')(IO);
 const N = 11;
 
 OT.then(function (OT) {
