@@ -10,6 +10,8 @@ We are essentially building 1-out-of-N OT from random 1-out-of-N and 1-out-of-2 
 
 ## Calling the API
 
+The process generally works as follows:
+
 ```javascript
 // Each party includes the 1-out-of-n module with IO:
 const OT = require('1-out-of-n')(IO);
@@ -26,3 +28,5 @@ OT.receive(2, N).then(console.log.bind(null, 'Secret #2 is:'));
 // Result:
 66
 ```
+
+Note that the latest version expects to get an array of Uint8Array as inputs.  Please read [example.js](https://github.com/wyatt-howe/1-out-of-n/blob/master/example.js) for a more detailed example.
