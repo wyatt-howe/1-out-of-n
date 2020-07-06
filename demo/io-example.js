@@ -4,9 +4,9 @@
 var listeners = {};
 var mailbox = {};
 const dummy_socket = computation_id => ({
-  get: function (op_id, tag) {
+  get: function (op_id, session_id, tag) {
     return new Promise(function (resolve) {
-      tag = computation_id + ':' + op_id + ':' + tag;
+      tag = computation_id + ':' + op_id + ':' + session_id + ':' + tag;
       if (mailbox[tag] == null) {
         // // console.log('io.get', tag, 'not ready');
         listeners[tag] = resolve;
@@ -17,8 +17,8 @@ const dummy_socket = computation_id => ({
       }
     });
   },
-  give: function (op_id, tag, msg) {
-    tag = computation_id + ':' + op_id + ':' + tag;
+  give: function (op_id, session_id, tag, msg) {
+    tag = computation_id + ':' + op_id + ':' + session_id + ':' + tag;
     // // console.log('io.give', tag, msg);
     if (listeners[tag] == null) {
       mailbox[tag] = msg;

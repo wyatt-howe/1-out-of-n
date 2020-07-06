@@ -1,6 +1,6 @@
 {
   "name": "1-out-of-n",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "1-out-of-n oblivious transfer",
   "main": "index.js",
   "files": [
@@ -31,9 +31,11 @@
   },
   "homepage": "https://github.com/wyatt-howe/1-out-of-n/#README",
   "dependencies": {
-    "1-out-of-n": "^0.1.1",
-    "eslint": "^7.2.0",
-    "eslint-plugin-requirejs": "^4.0.0",
+    "1-out-of-n": "^0.2.0",
     "libsodium-wrappers-sumo": "^0.7.6"
+  },
+  "dev-dependencies": {
+    "eslint": "^7.2.0",
+    "eslint-plugin-requirejs": "^4.0.0"
   }
 }
