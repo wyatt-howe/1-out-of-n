@@ -5,7 +5,7 @@ const ascii = require('./ascii.js');
  *  the methods in IO to send public messages between the two parties.
  */
 var IO = require('./io-example.js');
-const OT = require('1-out-of-n')(IO);
+const OT = require('../index.js')(IO);
 const N = 11;
 const op_id = '1in11ot';  // OPTIONAL op_id string
 const session_id = '1,2';  // OPTIONAL string to specify participants

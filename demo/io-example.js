@@ -8,10 +8,10 @@ const dummy_socket = computation_id => ({
     return new Promise(function (resolve) {
       tag = computation_id + ':' + op_id + ':' + session_id + ':' + tag;
       if (mailbox[tag] == null) {
-        // // console.log('io.get', tag, 'not ready');
+        // console.log('io.get', tag, 'not ready');
         listeners[tag] = resolve;
       } else {
-        // // console.log('io.get', tag, mailbox[tag]);
+        // console.log('io.get', tag, mailbox[tag]);
         resolve(mailbox[tag]);
         mailbox[tag] = undefined;
       }
@@ -19,7 +19,7 @@ const dummy_socket = computation_id => ({
   },
   give: function (op_id, session_id, tag, msg) {
     tag = computation_id + ':' + op_id + ':' + session_id + ':' + tag;
-    // // console.log('io.give', tag, msg);
+    // console.log('io.give', tag, msg);
     if (listeners[tag] == null) {
       mailbox[tag] = msg;
     } else {
