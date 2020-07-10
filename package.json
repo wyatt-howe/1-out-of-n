@@ -1,6 +1,6 @@
 {
   "name": "1-out-of-n",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "1-out-of-n oblivious transfer",
   "main": "index.js",
   "files": [

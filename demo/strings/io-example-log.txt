@@ -1,4 +1,4 @@
-1-out-of-n $ node demo/example.js
+1-out-of-n $ node demo/strings/example.js
 io.give "example:1in11ot:1inNot0:1in2ot:1,2:A" "HPajXE_WFJts4mJutck8OEwM6CkTAOPBgwNpNwLXAAs"
 io.get "example:1in11ot:1inNot0:1in2ot:1,2:B" "not ready"
 io.give "example:1in11ot:1inNot1:1in2ot:1,2:A" "1uYtFIIf7injDQOoLtsSySf6fIyNKgV989LiujLCcTM"
