@@ -7,6 +7,8 @@ const ascii = require('./ascii.js');
 var IO = require('./io-example.js');
 const OT = require('1-out-of-n')(IO);
 const N = 11;
+const op_id = '1in11ot';  // OPTIONAL op_id string
+const session_id = '1,2';  // OPTIONAL string to specify participants
 
 OT.then(function (OT) {
 
@@ -27,13 +29,13 @@ OT.then(function (OT) {
     'A tenth secret!!'
   ].map(ascii.to_array);
 
-  OT.send(secrets, N);
+  OT.send(secrets, N, op_id, session_id);
 
 
   /*
    *  The receiver calls:
    */
-  OT.receive(6, N).then(function (array) {
+  OT.receive(6, N, op_id, session_id).then(function (array) {
     console.log('The chosen secret is:', ascii.to_ascii(array));
   });
 
