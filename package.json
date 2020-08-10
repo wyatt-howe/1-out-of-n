@@ -10,7 +10,9 @@
     "lib/util.js"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run-script test-numbers; npm run-script test-strings; echo \"\\nexpected values: [66, \\\"A sixth secret!!\\\"]\"",
+    "test-numbers": "node demo/numbers/example.js",
+    "test-strings": "node demo/strings/example.js"
   },
   "repository": {
     "type": "git",
