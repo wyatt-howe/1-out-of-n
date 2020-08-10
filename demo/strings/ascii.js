@@ -7,10 +7,10 @@ const to_array = function (ascii) {
     array[i] = ascii[i].charCodeAt();
   }
   return array;
-}
+};
 const to_ascii = function (array) {
   return String.fromCharCode.apply(null, array);
-}
+};
 
 module.exports = {
   to_array: to_array,
