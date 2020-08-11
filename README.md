@@ -17,7 +17,7 @@ We build 1-out-of-N OT by composing random 1-out-of-N and multiple 1-out-of-2 or
 	booktitle = {Proceedings of the thirty-first annual {ACM} symposium on Theory of computing  - {STOC} {\textquotesingle}99}
 } -->
 
-## Project Layout
+## Project layout
 
 ```
 ├─ index.js           Module entry point (include this or use npm)
@@ -65,3 +65,11 @@ OT.receive(2, N).then(console.log.bind(null, 'Secret #2 is:'));
 ```
 
 Note that the latest version expects to get an array of Uint8Array as inputs, so if you are working with numbers larger than 8 bits, it is strongly recommended to use the Uint8Array byte array type to represent your number choices.  Please read [strings/example.js](https://github.com/wyatt-howe/1-out-of-n/blob/master/demo/strings/example.js) for a more detailed example or run it with `node demo/*/example.js`.
+
+## Test suite
+
+The example demos in `demo/numbers/example.js` and `demo/strings/example.js` test both a basic, and slightly more advanced usage of the library.  You may run them individually, or use the pre-configured test script by running `npm test`.  All versions and releases have tests passing.
+
+## Code linting
+
+Please run `npm run-script lint-fix` before submitting a pull request.
