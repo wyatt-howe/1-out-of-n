@@ -1,6 +1,6 @@
 {
   "name": "1-out-of-n",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "1-out-of-n oblivious transfer",
   "main": "index.js",
   "files": [
@@ -16,7 +16,7 @@
     "lint": "eslint lib",
     "lint-fix": "eslint lib --fix",
     "lint-all": "eslint .",
-    "lint-all-fix": "eslint lib --fix"
+    "lint-fix-all": "eslint . --fix"
   },
   "repository": {
     "type": "git",

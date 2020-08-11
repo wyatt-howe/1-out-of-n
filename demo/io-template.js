@@ -11,12 +11,14 @@
  */
 
 // IO send
+// eslint-disable-next-line no-unused-vars
 const give = function (op_id, session_id, tag, msg) {
   /* give a message */
   return;
 };
 
 // IO receive
+// eslint-disable-next-line no-unused-vars
 const get = function (op_id, session_id, tag) {
   /* get a message */
   return /*msg*/;

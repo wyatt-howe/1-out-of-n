@@ -9,8 +9,8 @@ const OT = require('1-out-of-n')(IO);
 const N = 11;
 const op_id = '1in11ot';  // OPTIONAL op_id string
 const session_id = '1,2';  // OPTIONAL string to specify participants
-const extra_arg_1 = "str_1";  // OPTIONAL extra parameters
-const extra_arg_2 = "str_2";  // (We can pass multiple, if needed for the IO.)
+const extra_arg_1 = 'str_1';  // OPTIONAL extra parameters
+const extra_arg_2 = 'str_2';  // (We can pass multiple, if needed for the IO.)
 
 OT.then(function (OT) {
 
