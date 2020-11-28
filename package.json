@@ -10,9 +10,8 @@
     "lib/util.js"
   ],
   "scripts": {
-    "test": "npm run-script test-numbers; npm run-script test-strings; echo \"\\nexpected values: [66, \\\"A sixth secret!!\\\"]\"",
-    "test-numbers": "node demo/numbers/example.js",
-    "test-strings": "node demo/strings/example.js",
+    "test": "npm run-script test-bit; echo \"\\nexpected values: [66, \\\"A sixth secret!!\\\"]\"",
+    "test-bit": "node demo/bit/example.js",
     "lint": "eslint lib",
     "lint-fix": "eslint lib --fix",
     "lint-all": "eslint .",
