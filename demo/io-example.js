@@ -1,3 +1,12 @@
+var messages_count = 0;
+
+// function delay(resolve, value) {
+//   setTimeout(function () {
+//     resolve(value);
+//   }, 1);
+// }
+// delay = (resolve, value) => resolve(value);
+
 /*
  *  Client-Server Communications
  */
@@ -5,14 +14,17 @@ var listeners = {};
 var mailbox = {};
 const dummy_socket = computation_id => ({
   get: function (op_id, session_id, tag) {
+    // messages_count++;
     return new Promise(function (resolve) {
       tag = computation_id + ':' + op_id + ':' + session_id + ':' + tag;
       if (mailbox[tag] == null) {
         // console.log('io.get', tag, 'not ready');
         listeners[tag] = resolve;
+        // listeners[tag] = delay.bind(this, resolve);
       } else {
         // console.log('io.get', tag, mailbox[tag]);
         resolve(mailbox[tag]);
+        // delay.bind(this, resolve)(mailbox[tag]);
         mailbox[tag] = undefined;
       }
     });
