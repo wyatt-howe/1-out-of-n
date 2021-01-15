@@ -1,6 +1,6 @@
 {
   "name": "1-out-of-n",
-  "version": "0.4.3",
+  "version": "0.5.1",
   "description": "1-out-of-n oblivious transfer",
   "main": "index.js",
   "files": [
@@ -10,9 +10,10 @@
     "lib/util.js"
   ],
   "scripts": {
-    "test": "npm run-script test-numbers; npm run-script test-strings; echo \"\\nexpected values: [66, \\\"A sixth secret!!\\\"]\"",
+    "test": "npm run-script test-numbers; npm run-script test-strings; npm run-script test-ext; echo \"\\nexpected values are: [66, \\\"A sixth secret!!\\\", ...[\\\"PASSED\\\" + ...[Uint8Array]]]\"",
     "test-numbers": "node demo/numbers/example.js",
     "test-strings": "node demo/strings/example.js",
+    "test-ext": "node demo/ext/example.js",
     "lint": "eslint lib",
     "lint-fix": "eslint lib --fix",
     "lint-all": "eslint .",
@@ -28,7 +29,9 @@
     "ot",
     "oblivious-transfer",
     "oblivious",
-    "transfer"
+    "transfer",
+    "ot-extension",
+    "oblivious-transfer-extension"
   ],
   "author": "Wyatt Howe <whowe@bu.edu>",
   "license": "MIT",
